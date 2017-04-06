@@ -1,19 +1,31 @@
 package sk.posam.coursequest.domain.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+@Entity
+@Table(name="COURSE_TBL")
+@NamedQueries(value = {
+		@NamedQuery(name="course.findAll", query="SELECT c FROM Course c"),
+		@NamedQuery(name="course.findByUser", query="SELECT c FROM Course c, User u  where u.id=:USER_ID")
+})
 public class Course {
+	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	private Long id;
 	private String name;
-	private long id;
-	private Collection<User> attendees;
-	
+	@ManyToMany(mappedBy="courses")
+	private Collection<User> attendees= new ArrayList<User>();
+
+	public Course() {
+	}
+
 	public Course (String name){
-		attendees = new ArrayList<User>();
 		this.name= name;
 	}
-	public long getId() {
+
+	public Long getId() {
 		return id;
 	}
 	public String getName() {

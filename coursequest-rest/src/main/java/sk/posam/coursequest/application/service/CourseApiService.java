@@ -5,8 +5,10 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sk.posam.coursequest.application.api.CourseApi;
 import sk.posam.coursequest.application.dto.DTOCourse;
+import sk.posam.coursequest.application.dto.DTOCreateCourse;
 import sk.posam.coursequest.domain.model.Course;
 import sk.posam.coursequest.domain.model.CourseFactory;
 import sk.posam.coursequest.domain.model.User;
@@ -24,31 +26,35 @@ public class CourseApiService implements CourseApi {
 	@Override
 	public Collection<DTOCourse> getList(long userId) {
 		Collection<Course> courses = courseRepository.readByUser(userId);
-		
+
 		Collection<DTOCourse> result = new ArrayList<>();
-		
-		for (Course course : courses){
-			DTOCourse next  = new DTOCourse();
-			
-			next.courseId = course.getId();
-			next.name = course.getName();
-			
-			result.add(next);
-		}
+		courses.forEach(course ->{
+			result.add(mapToDTO(course));
+		});
+
 		return result;
 	}
 
 	@Override
-	public void createCourse(String courseName, long userId) {
+	@Transactional
+	public void createCourse(DTOCreateCourse dtoCreateCourse) {
 
 	    // create object course
-		User user = userRepository.get(userId);
-		Course course = CourseFactory.create(courseName, user);
-		
-		
+		User user = userRepository.get(dtoCreateCourse.userId);
+		Course course = CourseFactory.create(dtoCreateCourse.name, user);
+		course.addAttendee(user);
+		user.addCourse(course);
+
 		// add course to Repository
 		courseRepository.createCourse(course);
 		
+	}
+
+	private DTOCourse mapToDTO(Course course){
+		DTOCourse dtoCourse  = new DTOCourse();
+		dtoCourse.courseId = course.getId();
+		dtoCourse.name = course.getName();
+		return dtoCourse;
 	}
 
 }

@@ -3,30 +3,30 @@ package sk.posam.coursequest.infrastructure.persistence;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import sk.posam.coursequest.domain.model.User;
 import sk.posam.coursequest.domain.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository{
-	private Collection<User> users = new ArrayList<>();
+	static Logger LOG = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
-	@PostConstruct
-	private void init(){
-		users.add(new User("Jano"));
-		users.add(new User("Fero"));
-	}
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Override
 	public User get(final long userId) {
-		User findUser = null;
-		for (User u : users){
-			if (u.getId() == userId){
-				findUser= u;
-			}
-		}
-		return findUser;
+		return entityManager.find(User.class,userId);
+	}
+
+	@Override
+	public Collection<User> getAll() {
+		return entityManager.createNamedQuery("user.findAll",User.class).getResultList();
 	}
 }

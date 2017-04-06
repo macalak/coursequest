@@ -46,7 +46,7 @@ public class DiscussionApiService implements DiscussionApi {
 		result.name = discussionMessage.getName();
 		result.description = discussionMessage.getDescription();
 		result.created = discussionMessage.getCreate();
-		result.createdBy = discussionMessage.getUser().getName();
+		result.createdBy = discussionMessage.getUser().getUsername();
 
 		for (DiscussionMessage dm : discussionMessage.getChilds()){
 			result.reactions.add(toDTO(dm));
