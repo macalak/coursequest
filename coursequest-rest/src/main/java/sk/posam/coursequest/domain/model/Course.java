@@ -17,6 +17,8 @@ public class Course {
 	private String name;
 	@ManyToMany(mappedBy="courses")
 	private Collection<User> attendees= new ArrayList<User>();
+	@OneToMany(mappedBy = "course")
+	private Collection<DiscussionMessage> messages= new ArrayList<DiscussionMessage>();
 
 	public Course() {
 	}

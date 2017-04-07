@@ -1,20 +1,31 @@
 package sk.posam.coursequest.domain.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
+@Table(name = "DISCUSSION_MESSAGE_TBL")
 public class DiscussionMessage {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private long id;
 	private String name;        // DiscussionMessage contain
 	private String description; // It's not used
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
+	@ManyToOne
 	private Course course;
+	@ManyToOne
 	private User user;
+	@OneToMany(mappedBy="parent")
 	private Collection<DiscussionMessage> childs;
+	@ManyToOne
 	private DiscussionMessage parent;
+	@Enumerated(EnumType.STRING)
 	private DiscussionMessageType type;
 
 	DiscussionMessage(String name, User user, Course course, DiscussionMessageType type) {
