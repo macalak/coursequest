@@ -5,20 +5,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-@Entity
-@Table(name="COURSE_TBL")
-@NamedQueries(value = {
-		@NamedQuery(name="course.findAll", query="SELECT c FROM Course c"),
-		@NamedQuery(name="course.findByUser", query="SELECT c FROM Course c, User u  where u.id=:USER_ID")
-})
+// TODO 01: Make entity from this class
 public class Course {
-	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	// TODO 02: Mark this as primary key
 	private Long id;
 	private String name;
-	@ManyToMany(mappedBy="courses")
+	// TODO 03: Course is related to User
 	private Collection<User> attendees= new ArrayList<User>();
-	@OneToMany(mappedBy = "course")
-	private Collection<DiscussionMessage> messages= new ArrayList<DiscussionMessage>();
+	// TODO 30: Course is related to DiscussionMessage
+
 
 	public Course() {
 	}

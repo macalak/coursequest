@@ -15,18 +15,18 @@ import java.util.List;
 /**
  * Created by macalaki on 04.04.2017.
  */
-@RestController
+// TODO 17: This is the REST controller
 public class UserController {
 
-    @Autowired
+    // TODO 18: Inject API implementation
     UserApi userApi;
 
-    @GetMapping(value = "/users/{userId}", produces = "application/json; charset=UTF-8")
+    // TODO 19: Mark as REST handler of the GET
     public User user(@PathVariable long userId){
         return userApi.getUser(userId);
     }
 
-    @GetMapping(value = "/users", produces = "application/json; charset=UTF-8")
+    // TODO 20: Mark as REST handler of the GET
     public Collection<User> users(){
         return userApi.getAll();
     }

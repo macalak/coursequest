@@ -5,23 +5,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-@Entity
-@Table(name="USER_TBL")
-@NamedQueries(value = {
-		@NamedQuery(name="user.findAll", query="select u from User u"),
-		@NamedQuery(name="user.findByName", query="select u from User u where u.username like :NAME")
-})
+// TODO 04: Make entity from this class
 public class User {
-	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	// TODO 05: Mark this as primary key
 	private Long id;
 	private String username;
-	@Enumerated(EnumType.STRING)
+	// TODO 06: Enumeration as string value
 	private UserRole role;
-	@ManyToMany
-	@JoinTable(
-			name="USER_COURSE",
-			joinColumns=@JoinColumn(name="USER_ID", referencedColumnName="ID"),
-			inverseJoinColumns=@JoinColumn(name="COURSE_ID", referencedColumnName="ID"))
+	// TODO 07: Relation to Course
 	private Collection<Course> courses = new ArrayList<Course>();;
 
 	public User() {

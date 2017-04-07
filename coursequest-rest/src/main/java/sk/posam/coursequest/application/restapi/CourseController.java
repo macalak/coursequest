@@ -30,7 +30,7 @@ public class CourseController {
     }
 
     // {"name": "Informatika","userId": 1}
-    @PostMapping(value = "/courses", consumes = "application/json; charset=UTF-8")
+    // TODO 21: Mark as REST handler of POST
     public void course(@RequestBody DTOCreateCourse dtoCourse){
         courseApi.createCourse(dtoCourse);
     }

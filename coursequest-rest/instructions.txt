@@ -1,0 +1,115 @@
+TODO 01:
+
+@Entity
+@Table(name="COURSE_TBL")
+@NamedQueries(value = {
+		@NamedQuery(name="course.findAll", query="SELECT c FROM Course c"),
+		@NamedQuery(name="course.findByUser", query="SELECT c FROM Course c, User u  where u.id=:USER_ID")
+})
+
+TODO 02:
+@Id @GeneratedValue(strategy=GenerationType.SEQUENCE)
+
+TODO 03:
+@ManyToMany(mappedBy="courses")
+
+TODO 04: Make entity from this class
+@Entity
+@Table(name="USER_TBL")
+@NamedQueries(value = {
+		@NamedQuery(name="user.findAll", query="select u from User u"),
+		@NamedQuery(name="user.findByName", query="select u from User u where u.username like :NAME")
+})
+
+TODO 05:
+@Id @GeneratedValue(strategy=GenerationType.SEQUENCE)
+
+TODO 06:
+@Enumerated(EnumType.STRING)
+
+TODO 07:
+	@ManyToMany
+	@JoinTable(
+			name="USER_COURSE",
+			joinColumns=@JoinColumn(name="USER_ID", referencedColumnName="ID"),
+			inverseJoinColumns=@JoinColumn(name="COURSE_ID", referencedColumnName="ID"))
+
+TODO 08:
+@Repository
+
+TODO 09:
+@PersistenceContext
+
+TODO 10:
+entityManager.find(User.class,userId);
+
+TODO 11:
+entityManager.createNamedQuery("user.findAll",User.class).getResultList();
+
+TODO 12:
+@PersistenceContext
+
+TODO 13:
+entityManager.find(User.class,userId);
+
+TODO 14:
+ String query = "SELECT  c.* " +
+                       "FROM  USER_COURSE uc INNER JOIN " +
+                       "USER_TBL u ON uc.user_id = u.id INNER JOIN " +
+                       "COURSE_TBL c ON uc.course_id = c.id " +
+                       "WHERE u.id = :USER_ID";
+        Query nativeQuery = entityManager.createNativeQuery(query, Course.class);
+        nativeQuery.setParameter("USER_ID",userId);
+        List<Course> list = nativeQuery.getResultList();
+        return list;
+
+TODO 15:
+entityManager.persist(course);
+
+TODO 16:
+entityManager.find(Course.class, courseId);
+
+TODO 17:
+@RestController
+
+TODO 18:
+@Autowired
+
+TODO 19:
+@GetMapping(value = "/users/{userId}", produces = "application/json; charset=UTF-8")
+
+TODO 20:
+@GetMapping(value = "/users", produces = "application/json; charset=UTF-8")
+
+TODO 21:
+@PostMapping(value = "/courses", consumes = "application/json; charset=UTF-8")
+
+TODO 22:
+@Entity
+@Table(name = "DISCUSSION_MESSAGE_TBL")
+
+TODO 23:
+@Id
+@GeneratedValue(strategy=GenerationType.SEQUENCE)
+
+TODO 24:
+@Temporal(TemporalType.TIMESTAMP)
+
+TODO 25:
+@ManyToOne
+
+TODO 26:
+@ManyToOne
+
+TODO 27:
+@OneToMany(mappedBy="parent")
+
+TODO 28:
+@ManyToOne
+
+TODO 29:
+@Enumerated(EnumType.STRING)
+
+TODO 30:
+@OneToMany(mappedBy = "course")
+private Collection<DiscussionMessage> messages= new ArrayList<DiscussionMessage>();
