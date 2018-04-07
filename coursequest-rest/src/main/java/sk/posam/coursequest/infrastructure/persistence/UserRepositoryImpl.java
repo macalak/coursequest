@@ -8,24 +8,27 @@ import sk.posam.coursequest.domain.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.Collection;
 
-// TODO 08: This is repository
+@Repository
 public class UserRepositoryImpl implements UserRepository{
 	static Logger LOG = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
-	// TODO 09: Inject EntityManager
+	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Override
 	public User get(final long userId) {
-		// TODO 10: Implementation
-		return null;
+		return entityManager.find(User.class,userId);
 	}
 
 	@Override
 	public Collection<User> getAll() {
-		// TODO 11: Implementation
-		return null;
+
+		//return entityManager.createQuery("from User",User.class).getResultList();
+		//return entityManager.createNativeQuery("select * from USER_TBL",User.class).getResultList();
+		return entityManager.createNamedQuery("user.selectAll",User.class).getResultList();
+
 	}
 }

@@ -17,8 +17,8 @@ public class CourseController {
     @Autowired
     CourseApi courseApi;
 
-    // http://localhost:8080/api/1/courses
-    @GetMapping(value = "/{userId}/courses", produces = "application/json; charset=UTF-8")
+    // http://localhost:8080/api/users/1/courses
+    @GetMapping(value = "/users/{userId}/courses", produces = "application/json; charset=UTF-8")
     public Collection<DTOCourse> coursesForUser(@PathVariable long userId){
         return courseApi.getList(userId);
     }
@@ -30,7 +30,7 @@ public class CourseController {
     }
 
     // {"name": "Informatika","userId": 1}
-    // TODO 21: Mark as REST handler of POST
+    @PostMapping(value = "/courses", consumes = "application/json; charset=UTF-8")
     public void course(@RequestBody DTOCreateCourse dtoCourse){
         courseApi.createCourse(dtoCourse);
     }

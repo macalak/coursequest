@@ -5,14 +5,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-// TODO 04: Make entity from this class
+@Entity
+@Table(name="USER_TBL")
+@NamedQueries(@NamedQuery(name="user.selectAll", query = "from User"))
 public class User {
-	// TODO 05: Mark this as primary key
+	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
+	@Column(length = 128, nullable = false)
 	private String username;
-	// TODO 06: Enumeration as string value
+	@Column(length = 64, nullable = false)
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
-	// TODO 07: Relation to Course
+	@ManyToMany
+	@JoinTable(
+			name="USER_COURSE_TBL",
+			joinColumns=@JoinColumn(name="USER_ID", referencedColumnName="ID"),
+			inverseJoinColumns=@JoinColumn(name="COURSE_ID", referencedColumnName="ID"))
 	private Collection<Course> courses = new ArrayList<Course>();;
 
 	public User() {

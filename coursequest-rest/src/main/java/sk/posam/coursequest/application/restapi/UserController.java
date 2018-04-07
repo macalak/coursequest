@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sk.posam.coursequest.application.api.CourseApi;
 import sk.posam.coursequest.application.api.UserApi;
 import sk.posam.coursequest.application.dto.DTOCourse;
+import sk.posam.coursequest.application.dto.DTOUser;
 import sk.posam.coursequest.domain.model.User;
 
 import java.util.Collection;
@@ -15,19 +16,20 @@ import java.util.List;
 /**
  * Created by macalaki on 04.04.2017.
  */
-// TODO 17: This is the REST controller
+
+@RestController
 public class UserController {
 
-    // TODO 18: Inject API implementation
+    @Autowired
     UserApi userApi;
 
-    // TODO 19: Mark as REST handler of the GET
-    public User user(@PathVariable long userId){
+    @GetMapping(value = "/users/{userId}", produces = "application/json; charset=UTF-8")
+    public DTOUser user(@PathVariable long userId){
         return userApi.getUser(userId);
     }
 
-    // TODO 20: Mark as REST handler of the GET
-    public Collection<User> users(){
+    @GetMapping(value = "/users", produces = "application/json; charset=UTF-8")
+    public Collection<DTOUser> users(){
         return userApi.getAll();
     }
 }

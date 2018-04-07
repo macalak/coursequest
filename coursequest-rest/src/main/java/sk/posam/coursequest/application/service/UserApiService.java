@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import sk.posam.coursequest.application.api.CourseApi;
 import sk.posam.coursequest.application.api.UserApi;
 import sk.posam.coursequest.application.dto.DTOCourse;
+import sk.posam.coursequest.application.dto.DTOUser;
 import sk.posam.coursequest.domain.model.Course;
 import sk.posam.coursequest.domain.model.CourseFactory;
 import sk.posam.coursequest.domain.model.User;
@@ -22,12 +23,26 @@ public class UserApiService implements UserApi {
 
 
 	@Override
-	public User getUser(long userId) {
-		return userRepository.get(userId);
+	public DTOUser getUser(long userId) {
+
+		User user = userRepository.get(userId);
+		return mapToDTO(user);
 	}
 
 	@Override
-	public Collection<User> getAll() {
-		return userRepository.getAll();
+	public Collection<DTOUser> getAll() {
+		Collection<DTOUser> dtoUsers = new ArrayList<DTOUser>();
+		userRepository.getAll().forEach(user -> {
+			dtoUsers.add(mapToDTO(user));
+		  }
+		);
+		return dtoUsers;
+	}
+
+	private DTOUser mapToDTO(User user){
+		DTOUser dtoUser = new DTOUser();
+		dtoUser.id=user.getId();
+		dtoUser.username=user.getUsername();
+		return  dtoUser;
 	}
 }

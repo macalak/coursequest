@@ -7,24 +7,25 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 
-// TODO 22: Mark this class as JPA entity
-
+@Entity
+@Table(name = "DISCUSSION_MESSAGE_TBL")
 public class DiscussionMessage {
-	// TODO 23: Primary key
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private long id;
 	private String name;        // DiscussionMessage contain
 	private String description; // It's not used
-	// TODO 24: Timestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
-	// TODO 25: Relation to course
+	@ManyToOne
 	private Course course;
-	// TODO 26: Relation to user
+	@ManyToOne
 	private User user;
-	// TODO 27: Relation to itself
+	@OneToMany(mappedBy="parent")
 	private Collection<DiscussionMessage> childs;
-	// TODO 28: Relation to itself
+	@ManyToOne
 	private DiscussionMessage parent;
-	// TODO 29: Enumeration as string
+	@Enumerated(EnumType.STRING)
 	private DiscussionMessageType type;
 
 	DiscussionMessage(String name, User user, Course course, DiscussionMessageType type) {

@@ -2,8 +2,10 @@ package sk.posam.coursequest.application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sk.posam.coursequest.application.dto.DTOMessageTree;
 import sk.posam.coursequest.application.api.DiscussionApi;
+import sk.posam.coursequest.application.dto.DTOQuestion;
 import sk.posam.coursequest.domain.model.Course;
 import sk.posam.coursequest.domain.repository.CourseRepository;
 import sk.posam.coursequest.domain.model.DiscussionMessage;
@@ -13,6 +15,7 @@ import sk.posam.coursequest.domain.model.User;
 import sk.posam.coursequest.domain.repository.UserRepository;
 
 @Service
+@Transactional
 public class DiscussionApiService implements DiscussionApi {
 	@Autowired
 	UserRepository userRepository;
@@ -22,13 +25,13 @@ public class DiscussionApiService implements DiscussionApi {
 	CourseRepository courseRepository;
 
 	@Override
-	public void createQuestion(long courseId, String name, String description, long userId) {
+	public void createQuestion(DTOQuestion dtoQuestion) {
 
-		User user = userRepository.get(userId);
-		Course course = courseRepository.read(courseId);
-		DiscussionMessage question = DiscussionMessageFactory.create(name, user, course);
-		question.setDescription(description);
-
+		User user = userRepository.get(dtoQuestion.userId);
+		Course course = courseRepository.read(dtoQuestion.courseId);
+		DiscussionMessage question = DiscussionMessageFactory.create(dtoQuestion.name, user, course);
+		question.setDescription(dtoQuestion.description);
+		course.getMessages().add(question);
 		discussionMessageRepository.create(question);
 	}
 

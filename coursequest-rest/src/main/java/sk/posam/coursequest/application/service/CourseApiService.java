@@ -14,6 +14,7 @@ import sk.posam.coursequest.domain.model.CourseFactory;
 import sk.posam.coursequest.domain.model.User;
 import sk.posam.coursequest.domain.repository.CourseRepository;
 import sk.posam.coursequest.domain.repository.UserRepository;
+import sk.posam.coursequest.infrastructure.persistence.CourseRepositoryImpl;
 
 @Service
 public class CourseApiService implements CourseApi {

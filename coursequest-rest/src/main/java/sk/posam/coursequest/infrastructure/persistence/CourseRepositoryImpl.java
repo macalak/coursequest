@@ -23,28 +23,34 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by macalaki on 04.04.2017.
  */
-// TODO 12: This is repository
+
+@Repository
 public class CourseRepositoryImpl implements CourseRepository {
     static Logger LOG = LoggerFactory.getLogger(CourseRepositoryImpl.class);
 
-    // TODO 13: Inject EntityManager
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public Collection<Course> readByUser(long userId) {
-       // TODO 14: Implementation
-       return  null;
+        String query = "SELECT  c.* " +
+                "FROM  USER_COURSE_TBL uc INNER JOIN " +
+                "USER_TBL u ON uc.user_id = u.id INNER JOIN " +
+                "COURSE_TBL c ON uc.course_id = c.id " +
+                "WHERE u.id = :USER_ID";
+        Query nativeQuery = entityManager.createNativeQuery(query, Course.class);
+        nativeQuery.setParameter("USER_ID",userId);
+        List<Course> list = nativeQuery.getResultList();
+        return list;
     }
 
     @Override
     public void createCourse(Course course) {
-        // TODO 15: Implementation
-
+        entityManager.persist(course);
     }
 
     @Override
     public Course read(long courseId) {
-        // TODO 16: Implementation
-        return null;
+        return entityManager.find(Course.class, courseId);
     }
 }
